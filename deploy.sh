@@ -14,7 +14,7 @@ SERVICE_NAME="dfp-connect"
 # 환경 변수 (실제 값으로 변경 필요)
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="pk_test_b3JnYW5pYy10cm9sbC03NS5jbGVyay5hY2NvdW50cy5kZXYk"
 CLERK_SECRET_KEY="sk_test_aBbPiRAv6pYi78WoQ5cxSSzrvGwmyvAvfKrfaXwvyT"
-DATABASE_URL="postgresql://postgres:DFPConnect2025!@localhost/dfp_connect?host=/cloudsql/${PROJECT_ID}:${REGION}:dfp-postgres"
+DATABASE_URL="postgresql://postgres:DFPConnect2025!@34.158.210.184:5432/dfpconnect?schema=public"
 
 # GCP 프로젝트 설정
 echo "📝 GCP 프로젝트 설정: $PROJECT_ID"
