@@ -1,16 +1,132 @@
-# DFP Connect - 배포 가이드
+# DFP Connect - 자동 배포 설정 가이드
+
+이 문서는 GitHub Actions를 통한 GCP Cloud Run 자동 배포 설정 방법을 설명합니다.
 
 ## 프로젝트 정보
 
 - **GitHub Repository**: https://github.com/myaji35/DFP_Connect.git
 - **Owner**: myaji35
-- **GCP Project ID**: `marketsphere-476701`
+- **GCP Project ID**: `dfp-connect-476703`
 - **Project Name**: DFP Connect
 - **Region**: `asia-northeast3` (서울)
+- **Cloud SQL Instance**: `dfp-postgres` (34.158.210.184)
 
 ---
 
-## 배포 방법
+## 1. GitHub Secrets 설정
+
+GitHub 저장소의 Settings > Secrets and variables > Actions에서 다음 Secrets를 추가해야 합니다:
+
+### GCP_SA_KEY
+GCP 서비스 계정 키 JSON 전체 내용. 아래 파일의 내용을 복사하여 붙여넣으세요:
+```
+~/github-actions-key.json
+```
+
+### DATABASE_URL
+PostgreSQL 연결 문자열:
+```
+postgresql://postgres:DFPConnect2025!@34.158.210.184:5432/dfpconnect?schema=public
+```
+
+### CLERK_PUBLISHABLE_KEY
+Clerk 퍼블릭 키:
+```
+pk_test_b3JnYW5pYy10cm9sbC03NS5jbGVyay5hY2NvdW50cy5kZXYk
+```
+
+### CLERK_SECRET_KEY
+Clerk 시크릿 키:
+```
+sk_test_aBbPiRAv6pYi78WoQ5cxSSzrvGwmyvAvfKrfaXwvyT
+```
+
+---
+
+## 2. 배포 워크플로우
+
+`.github/workflows/deploy.yml` 파일이 다음 작업을 자동으로 수행합니다:
+
+1. **코드 체크아웃**: GitHub에서 최신 코드를 가져옵니다
+2. **Node.js 설정**: Node.js 20 버전을 설치합니다
+3. **의존성 설치**: npm ci로 패키지를 설치합니다
+4. **테스트 실행**: npm test (있는 경우)
+5. **빌드**: Next.js 애플리케이션 빌드
+6. **GCP 인증**: 서비스 계정으로 인증
+7. **Docker 이미지 빌드 및 푸시**: GCR에 이미지 업로드
+8. **Cloud Run 배포**: 새 이미지로 서비스 배포
+
+## 3. 배포 트리거
+
+- `main` 브랜치에 push할 때 자동 배포
+- `main` 브랜치로의 Pull Request 시 빌드 테스트
+
+## 4. Cloud Run 설정
+
+배포 시 다음 설정이 적용됩니다:
+
+- **리전**: asia-northeast3 (서울)
+- **메모리**: 512Mi
+- **CPU**: 1
+- **최소 인스턴스**: 0 (비용 절감)
+- **최대 인스턴스**: 10
+- **Cloud SQL 연결**: dfp-connect-476703:asia-northeast3:dfp-postgres
+- **인증**: 퍼블릭 액세스 허용
+
+## 5. 환경 변수
+
+Cloud Run 인스턴스에 다음 환경 변수가 설정됩니다:
+
+- `NODE_ENV=production`
+- `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
+- `CLERK_SECRET_KEY`
+- `DATABASE_URL`
+
+## 6. 배포 확인
+
+배포 후 다음 명령으로 서비스 URL을 확인할 수 있습니다:
+
+```bash
+gcloud run services describe dfp-connect \
+  --region asia-northeast3 \
+  --format="value(status.url)"
+```
+
+## 7. 서비스 계정 정보
+
+- **서비스 계정 이메일**: github-actions@dfp-connect-476703.iam.gserviceaccount.com
+- **키 파일 위치**: ~/github-actions-key.json
+- **권한**:
+  - Cloud Run Admin
+  - Storage Admin
+  - Service Account User
+
+## 8. 주의사항
+
+- 서비스 계정 키 파일(`~/github-actions-key.json`)은 안전하게 보관하고, Git에 커밋하지 마세요
+- GitHub Secrets는 절대 코드에 하드코딩하지 마세요
+- 프로덕션 데이터베이스 비밀번호는 정기적으로 변경하세요
+
+## 9. 트러블슈팅
+
+### 빌드 실패 시
+- GitHub Actions 로그에서 에러 메시지 확인
+- 환경 변수가 제대로 설정되었는지 확인
+- 서비스 계정 권한 확인
+
+### 배포 실패 시
+- Cloud Run 로그 확인: `gcloud run services logs read dfp-connect --region asia-northeast3`
+- Cloud SQL 연결 확인
+- 환경 변수 확인
+
+### 데이터베이스 연결 실패 시
+- Cloud SQL IP 주소 확인
+- 방화벽 규칙 확인
+- 데이터베이스 자격증명 확인
+
+---
+
+## 수동 배포 방법 (참고용)
 
 ### 1. Cloud Run 배포 (추천)
 
