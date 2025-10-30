@@ -11,12 +11,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build arguments for Clerk keys
-ARG NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-ARG CLERK_SECRET_KEY
+# Copy production env file
+COPY .env.production .env.production
 
-ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
-ENV CLERK_SECRET_KEY=${CLERK_SECRET_KEY}
 ENV NODE_ENV=production
 
 RUN npm run build
