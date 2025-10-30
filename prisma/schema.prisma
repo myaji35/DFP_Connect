@@ -1,0 +1,180 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// 사용자 프로필 (Clerk와 연동)
+model UserProfile {
+  id            String   @id @default(cuid())
+  clerkId       String   @unique
+  email         String   @unique
+  firstName     String?
+  lastName      String?
+  phoneNumber   String?
+  userType      UserType @default(FAMILY)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  families      Family[]
+  applications  ServiceApplication[]
+  notifications Notification[]
+
+  @@map("user_profiles")
+}
+
+enum UserType {
+  FAMILY      // 서비스 이용자 (장애인 가족)
+  BUSINESS    // B2B 고객 (협력 기관)
+  SUPPORTER   // 후원 파트너
+  ADMIN       // 관리자
+}
+
+// 가족 정보
+model Family {
+  id                String   @id @default(cuid())
+  userId            String
+  familyName        String
+  familyMemberCount Int
+  disabilityType    String?
+  disabilityLevel   String?
+  specialNotes      String?
+  address           String?
+  emergencyContact  String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  user              UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
+  applications      ServiceApplication[]
+
+  @@map("families")
+}
+
+// 서비스 유형
+model Service {
+  id          String          @id @default(cuid())
+  name        String
+  category    ServiceCategory
+  description String
+  isActive    Boolean         @default(true)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  // Relations
+  applications ServiceApplication[]
+
+  @@map("services")
+}
+
+enum ServiceCategory {
+  EMERGENCY_CARE      // 긴급돌봄
+  HOME_TUTORING       // 방과후 홈티
+  COUNSELING          // 개별/가족 상담
+  TRAVEL              // 맞춤형 여행
+  STAFF_DISPATCH      // 전문인력 파견 (B2B)
+  OTHER               // 기타
+}
+
+// 서비스 신청
+model ServiceApplication {
+  id              String            @id @default(cuid())
+  userId          String
+  familyId        String?
+  serviceId       String
+  status          ApplicationStatus @default(PENDING)
+  requestDate     DateTime          @default(now())
+  preferredDate   DateTime?
+  content         String
+  adminNotes      String?
+  processedAt     DateTime?
+  processedBy     String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  // Relations
+  user            UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
+  family          Family?     @relation(fields: [familyId], references: [id], onDelete: SetNull)
+  service         Service     @relation(fields: [serviceId], references: [id])
+  reservations    ServiceReservation[]
+
+  @@map("service_applications")
+}
+
+enum ApplicationStatus {
+  PENDING     // 대기중
+  APPROVED    // 승인됨
+  REJECTED    // 거절됨
+  COMPLETED   // 완료됨
+  CANCELLED   // 취소됨
+}
+
+// 서비스 예약
+model ServiceReservation {
+  id              String            @id @default(cuid())
+  applicationId   String
+  reservedDate    DateTime
+  startTime       String
+  endTime         String?
+  note            String?
+  status          ReservationStatus @default(PENDING)
+  adminNote       String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  // Relations
+  application     ServiceApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  @@map("service_reservations")
+}
+
+enum ReservationStatus {
+  CONFIRMED   // 예약 확정
+  PENDING     // 예약 대기
+  COMPLETED   // 완료
+  CANCELLED   // 취소
+}
+
+// 활동 로그
+model ActivityLog {
+  id          String   @id @default(cuid())
+  userId      String?
+  action      String
+  description String
+  metadata    String?
+  createdAt   DateTime @default(now())
+
+  @@map("activity_logs")
+}
+
+// 알림
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  type      NotificationType
+  title     String
+  message   String
+  link      String?
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  // Relations
+  user UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+enum NotificationType {
+  APPLICATION_STATUS // 신청 상태 변경
+  RESERVATION_STATUS // 예약 상태 변경
+  NEW_SERVICE        // 새로운 서비스
+  GENERAL            // 일반 알림
+  SYSTEM             // 시스템 알림
+}

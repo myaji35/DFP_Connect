@@ -12,7 +12,7 @@ interface PersonaCardProps {
   isSelected: boolean
 }
 
-function PersonaCard({ icon, title, description, onClick, isSelected }: PersonaCardProps) {
+function PersonaCard({ icon, title, description, onClick, isSelected, subtitle, services }: PersonaCardProps & { subtitle?: string; services?: string[] }) {
   return (
     <button
       onClick={onClick}
@@ -33,8 +33,22 @@ function PersonaCard({ icon, title, description, onClick, isSelected }: PersonaC
         )}>
           {icon}
         </div>
-        <h3 className="mb-2 text-2xl font-bold text-gray-900">{title}</h3>
-        <p className="text-gray-600">{description}</p>
+        <h3 className="mb-1 text-2xl font-bold text-gray-900">{title}</h3>
+        {subtitle && (
+          <p className="mb-3 text-sm font-semibold text-primary">{subtitle}</p>
+        )}
+        <p className="text-sm text-gray-600">{description}</p>
+
+        {isSelected && services && services.length > 0 && (
+          <div className="mt-4 space-y-2 animate-in fade-in slide-in-from-bottom-2 duration-300">
+            {services.map((service, idx) => (
+              <div key={idx} className="flex items-center gap-2 text-xs text-gray-700">
+                <div className="h-1.5 w-1.5 rounded-full bg-primary" />
+                <span>{service}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Decorative gradient overlay */}
@@ -54,20 +68,26 @@ export function PersonaSelector() {
     {
       id: 'family',
       icon: <Users className="h-8 w-8" />,
-      title: '서비스 이용자',
-      description: '장애인 가족을 위한 돌봄, 교육, 상담 서비스'
+      title: '장애인 가족',
+      subtitle: '서비스 이용자',
+      description: '긴급돌봄, 방과후 홈티, 개별/가족 상담, 맞춤형 여행',
+      services: ['긴급돌봄 신청', '방과후 홈티', '상담 예약', '여행 문의']
     },
     {
       id: 'business',
       icon: <Building2 className="h-8 w-8" />,
       title: '협력 기관',
-      description: '전문 인력 파견 및 프로그램 운영 지원'
+      subtitle: 'B2B 고객',
+      description: '전문 인력 파견, 프로그램 운영, 기관 협력 서비스',
+      services: ['인력 파견 의뢰', '프로그램 제안', '협력 문의', '견적 요청']
     },
     {
       id: 'supporter',
       icon: <Heart className="h-8 w-8" />,
       title: '후원 파트너',
-      description: '함께 만드는 희망의 변화, 후원과 협력'
+      subtitle: '함께하는 변화',
+      description: '후원, 자원봉사, 물품 기부, 전략적 파트너십',
+      services: ['정기 후원', '일시 후원', '자원봉사', '파트너십 문의']
     }
   ]
 
@@ -88,7 +108,9 @@ export function PersonaSelector() {
             key={persona.id}
             icon={persona.icon}
             title={persona.title}
+            subtitle={persona.subtitle}
             description={persona.description}
+            services={persona.services}
             onClick={() => setSelectedPersona(persona.id)}
             isSelected={selectedPersona === persona.id}
           />

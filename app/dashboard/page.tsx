@@ -9,14 +9,67 @@ import {
   Settings,
   FileText,
   Users,
-  Building2
+  Building2,
+  Plus
 } from 'lucide-react'
+import Link from 'next/link'
+import { prisma } from '@/lib/prisma'
+import { NotificationBell } from '@/components/notification-bell'
 
 export default async function DashboardPage() {
   const user = await currentUser()
 
   if (!user) {
     redirect('/sign-in')
+  }
+
+  // 사용자 프로필 및 가족 정보 조회
+  let userProfile = await prisma.userProfile.findUnique({
+    where: { clerkId: user.id },
+    include: {
+      families: {
+        orderBy: { createdAt: 'desc' }
+      },
+      applications: {
+        orderBy: { createdAt: 'desc' },
+        take: 5,
+        include: {
+          service: true
+        }
+      },
+      reservations: {
+        orderBy: { startTime: 'desc' },
+        take: 5,
+        include: {
+          service: true
+        }
+      }
+    }
+  })
+
+  // 첫 로그인 시 프로필 자동 생성
+  if (!userProfile) {
+    userProfile = await prisma.userProfile.create({
+      data: {
+        clerkId: user.id,
+        email: user.emailAddresses[0].emailAddress,
+        firstName: user.firstName || null,
+        lastName: user.lastName || null,
+      },
+      include: {
+        families: true,
+        applications: {
+          include: {
+            service: true
+          }
+        },
+        reservations: {
+          include: {
+            service: true
+          }
+        }
+      }
+    })
   }
 
   return (
@@ -28,6 +81,7 @@ export default async function DashboardPage() {
             <h1 className="text-2xl font-bold text-blue-600">DFP Connect</h1>
           </div>
           <div className="flex items-center gap-4">
+            <NotificationBell />
             <UserButton afterSignOutUrl="/" />
           </div>
         </div>
@@ -59,15 +113,17 @@ export default async function DashboardPage() {
               </div>
             </button>
 
-            <button className="group flex items-center gap-4 rounded-xl bg-white p-6 shadow-lg transition-all hover:scale-105 hover:shadow-xl">
-              <div className="rounded-full bg-blue-100 p-3">
-                <Calendar className="h-6 w-6 text-blue-600" />
-              </div>
-              <div className="text-left">
-                <div className="font-semibold text-gray-900">서비스 예약</div>
-                <div className="text-sm text-gray-500">일정 확인</div>
-              </div>
-            </button>
+            <Link href="/dashboard/reservations">
+              <button className="group flex items-center gap-4 rounded-xl bg-white p-6 shadow-lg transition-all hover:scale-105 hover:shadow-xl w-full">
+                <div className="rounded-full bg-blue-100 p-3">
+                  <Calendar className="h-6 w-6 text-blue-600" />
+                </div>
+                <div className="text-left">
+                  <div className="font-semibold text-gray-900">서비스 예약</div>
+                  <div className="text-sm text-gray-500">일정 확인</div>
+                </div>
+              </button>
+            </Link>
 
             <button className="group flex items-center gap-4 rounded-xl bg-white p-6 shadow-lg transition-all hover:scale-105 hover:shadow-xl">
               <div className="rounded-full bg-green-100 p-3">
@@ -93,37 +149,109 @@ export default async function DashboardPage() {
 
         {/* Dashboard Grid */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          {/* My Services */}
-          <div className="lg:col-span-2">
+          {/* My Families & Services */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* 가족 정보 */}
+            <div className="rounded-2xl bg-white p-6 shadow-lg">
+              <h3 className="mb-4 flex items-center gap-2 text-xl font-bold text-gray-900">
+                <Users className="h-5 w-5" />
+                가족 정보
+              </h3>
+              <div className="space-y-4">
+                {userProfile.families.length > 0 ? (
+                  <>
+                    {userProfile.families.map((family) => (
+                      <div key={family.id} className="rounded-lg border border-gray-200 p-4">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="font-semibold text-gray-900">{family.familyName}</div>
+                            <div className="mt-1 text-sm text-gray-500">
+                              구성원 {family.familyMemberCount}명
+                              {family.disabilityType && ` · ${family.disabilityType}`}
+                              {family.disabilityLevel && ` · ${family.disabilityLevel}`}
+                            </div>
+                            {family.specialNotes && (
+                              <div className="mt-2 text-sm text-gray-600">{family.specialNotes}</div>
+                            )}
+                          </div>
+                          <Link
+                            href={`/dashboard/family/${family.id}`}
+                            className="text-sm text-blue-600 hover:text-blue-700"
+                          >
+                            수정
+                          </Link>
+                        </div>
+                      </div>
+                    ))}
+                    <Link href="/dashboard/family/new">
+                      <button className="w-full rounded-lg border-2 border-dashed border-gray-300 p-4 text-gray-500 transition-colors hover:border-blue-500 hover:text-blue-500">
+                        <Plus className="mx-auto h-5 w-5 mb-1" />
+                        가족 정보 추가하기
+                      </button>
+                    </Link>
+                  </>
+                ) : (
+                  <Link href="/dashboard/family/new">
+                    <button className="w-full rounded-lg border-2 border-dashed border-blue-300 bg-blue-50 p-6 text-blue-600 transition-colors hover:border-blue-500 hover:bg-blue-100">
+                      <Plus className="mx-auto h-8 w-8 mb-2" />
+                      <div className="font-semibold">첫 가족 정보 등록하기</div>
+                      <div className="mt-1 text-sm">서비스 이용을 위해 가족 정보를 등록해주세요</div>
+                    </button>
+                  </Link>
+                )}
+              </div>
+            </div>
+
+            {/* 나의 서비스 */}
             <div className="rounded-2xl bg-white p-6 shadow-lg">
               <h3 className="mb-4 flex items-center gap-2 text-xl font-bold text-gray-900">
                 <FileText className="h-5 w-5" />
-                나의 서비스
+                나의 서비스 신청
               </h3>
               <div className="space-y-4">
-                <div className="flex items-center justify-between rounded-lg border border-gray-200 p-4">
-                  <div>
-                    <div className="font-semibold text-gray-900">방과후 홈티</div>
-                    <div className="text-sm text-gray-500">매주 월, 수, 금 14:00-16:00</div>
+                {userProfile.applications.length > 0 ? (
+                  <>
+                    {userProfile.applications.map((app) => (
+                      <div key={app.id} className="flex items-center justify-between rounded-lg border border-gray-200 p-4">
+                        <div className="flex-1">
+                          <div className="font-semibold text-gray-900">{app.service.name}</div>
+                          <div className="text-sm text-gray-500">
+                            신청일: {new Date(app.requestDate).toLocaleDateString('ko-KR')}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className={`rounded-full px-3 py-1 text-sm font-medium ${
+                            app.status === 'APPROVED' ? 'bg-green-100 text-green-700' :
+                            app.status === 'PENDING' ? 'bg-yellow-100 text-yellow-700' :
+                            app.status === 'REJECTED' ? 'bg-red-100 text-red-700' :
+                            'bg-gray-100 text-gray-700'
+                          }`}>
+                            {app.status === 'APPROVED' ? '승인됨' :
+                             app.status === 'PENDING' ? '대기중' :
+                             app.status === 'REJECTED' ? '거절됨' :
+                             app.status === 'COMPLETED' ? '완료' : '취소됨'}
+                          </span>
+                          {app.status === 'APPROVED' && (
+                            <Link href={`/dashboard/applications/${app.id}/reserve`}>
+                              <button className="px-3 py-1 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded">
+                                예약하기
+                              </button>
+                            </Link>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  <div className="text-center py-8 text-gray-500">
+                    아직 신청한 서비스가 없습니다
                   </div>
-                  <span className="rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-700">
-                    진행중
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between rounded-lg border border-gray-200 p-4">
-                  <div>
-                    <div className="font-semibold text-gray-900">가족 상담</div>
-                    <div className="text-sm text-gray-500">다음 예약: 2025년 11월 5일</div>
-                  </div>
-                  <span className="rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-700">
-                    예약됨
-                  </span>
-                </div>
-
-                <button className="w-full rounded-lg border-2 border-dashed border-gray-300 p-4 text-gray-500 transition-colors hover:border-blue-500 hover:text-blue-500">
-                  + 새 서비스 신청하기
-                </button>
+                )}
+                <Link href="/dashboard/apply">
+                  <button className="w-full rounded-lg border-2 border-dashed border-gray-300 p-4 text-gray-500 transition-colors hover:border-blue-500 hover:text-blue-500">
+                    + 새 서비스 신청하기
+                  </button>
+                </Link>
               </div>
             </div>
 

@@ -5,8 +5,13 @@ export function Header() {
   return (
     <header className="fixed left-0 right-0 top-0 z-40 border-b bg-white/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
-        <Link href="/" className="text-2xl font-bold text-blue-600">
-          DFP Connect
+        <Link href="/" className="flex flex-col">
+          <div className="text-xl font-bold text-gray-900 md:text-2xl">
+            장애와가족플랫폼
+          </div>
+          <div className="text-[10px] text-gray-500 md:text-xs">
+            Disability and Family Platform
+          </div>
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">
