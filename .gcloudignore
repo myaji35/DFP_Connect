@@ -1,0 +1,28 @@
+# Compiled output
+.next/
+node_modules/
+dist/
+build/
+
+# Environment files
+.env.local
+.env*.local
+
+# IDE
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
+
+# Testing
+coverage/
+
+# Misc
+.DS_Store
+*.log
+npm-debug.log*
+
+# BMAD
+.bmad-core/
