@@ -63,7 +63,7 @@ export default async function AdminReservationDetailPage({
   const reservationForForm = {
     ...reservation,
     reservedDate: reservation.reservedDate.toISOString().split('T')[0] // Convert Date to YYYY-MM-DD string
-  }
+  } as any // TODO: Fix type compatibility in Phase 8
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
