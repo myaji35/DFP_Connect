@@ -61,6 +61,71 @@ async function main() {
   ])
 
   console.log(`Created ${services.length} services`)
+
+  // 후원 계좌 생성
+  const donationAccounts = await Promise.all([
+    prisma.donationAccount.create({
+      data: {
+        bankName: '신한은행',
+        accountNumber: '110-123-456789',
+        accountHolder: '장애와가족플랫폼 사회적협동조합',
+        purpose: '일반 후원',
+        isActive: true,
+        displayOrder: 1,
+      },
+    }),
+    prisma.donationAccount.create({
+      data: {
+        bankName: '국민은행',
+        accountNumber: '012-34-5678-901',
+        accountHolder: '장애와가족플랫폼 사회적협동조합',
+        purpose: '긴급돌봄 지원',
+        isActive: true,
+        displayOrder: 2,
+      },
+    }),
+  ])
+
+  console.log(`Created ${donationAccounts.length} donation accounts`)
+
+  // 샘플 스토리 생성
+  const stories = await Promise.all([
+    prisma.story.create({
+      data: {
+        title: '우리 아이의 첫 홈티 경험',
+        content: `방과후 홈티 서비스를 이용한 지 3개월이 되었습니다. 처음에는 낯선 사람이 집에 온다는 것에 아이가 불안해했지만, 선생님께서 아이의 눈높이에 맞춰 천천히 다가가 주셨어요.
+
+이제는 선생님 오시는 날을 손꼽아 기다립니다. 아이가 웃음이 많아지고, 새로운 것에 도전하는 용기도 생겼어요. 무엇보다 아이가 행복해하는 모습을 보니 부모로서 정말 감사한 마음입니다.
+
+DFP Connect를 통해 이런 좋은 선생님을 만날 수 있어서 감사합니다.`,
+        category: 'SUCCESS',
+        authorName: '김OO',
+        isAnonymous: false,
+        status: 'PUBLISHED',
+        publishedAt: new Date(),
+        featuredOrder: 1,
+        tags: JSON.stringify(['홈티', '성장', '감사']),
+      },
+    }),
+    prisma.story.create({
+      data: {
+        title: '긴급돌봄이 우리 가족을 구했어요',
+        content: `갑자기 보호자가 입원하게 되어 막막했는데, DFP Connect의 긴급돌봄 서비스를 알게 되었습니다.
+
+전화 한 통으로 2시간 만에 전문 돌봄 선생님이 오셨고, 아이를 안전하게 돌봐주셨어요. 입원 기간 동안 마음 편히 치료에 집중할 수 있었습니다.
+
+이런 서비스가 있다는 것을 더 많은 장애인 가족들이 알았으면 좋겠습니다.`,
+        category: 'PARENTING',
+        authorName: null,
+        isAnonymous: true,
+        status: 'PUBLISHED',
+        publishedAt: new Date(),
+        tags: JSON.stringify(['긴급돌봄', '감사']),
+      },
+    }),
+  ])
+
+  console.log(`Created ${stories.length} sample stories`)
   console.log('Seed completed successfully!')
 }
 

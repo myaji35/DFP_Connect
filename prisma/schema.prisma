@@ -26,6 +26,7 @@ model UserProfile {
   families      Family[]
   applications  ServiceApplication[]
   notifications Notification[]
+  stories       Story[]
 
   @@map("user_profiles")
 }
@@ -177,4 +178,154 @@ enum NotificationType {
   NEW_SERVICE        // 새로운 서비스
   GENERAL            // 일반 알림
   SYSTEM             // 시스템 알림
+}
+
+// ===== 기관 홍보 웹사이트 모델 =====
+
+// 폼 제출
+model FormSubmission {
+  id           String             @id @default(cuid())
+  formType     FormType
+  name         String
+  email        String?
+  phone        String
+  organization String?
+  subject      String?
+  message      String
+  status       SubmissionStatus   @default(PENDING)
+  priority     Priority           @default(NORMAL)
+  assignedTo   String?
+  processedAt  DateTime?
+  adminNotes   String?
+  metadata     String?
+  ipAddress    String?
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+
+  statusHistory FormStatusHistory[]
+
+  @@index([formType, status])
+  @@index([createdAt])
+  @@index([assignedTo])
+  @@map("form_submissions")
+}
+
+model FormStatusHistory {
+  id         String            @id @default(cuid())
+  formId     String
+  fromStatus SubmissionStatus?
+  toStatus   SubmissionStatus
+  changedBy  String?
+  notes      String?
+  createdAt  DateTime          @default(now())
+
+  form FormSubmission @relation(fields: [formId], references: [id], onDelete: Cascade)
+
+  @@index([formId, createdAt])
+  @@map("form_status_history")
+}
+
+// 스토리
+model Story {
+  id             String              @id @default(cuid())
+  title          String
+  content        String
+  category       StoryCategory
+  authorName     String?
+  isAnonymous    Boolean             @default(false)
+  userId         String?
+  email          String?
+  phone          String?
+  featuredImage  String?
+  images         String?
+  status         ContentStatus       @default(PENDING)
+  reviewedBy     String?
+  reviewedAt     DateTime?
+  reviewNotes    String?
+  publishedAt    DateTime?
+  viewCount      Int                 @default(0)
+  featuredOrder  Int?
+  tags           String?
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+
+  author        UserProfile?        @relation(fields: [userId], references: [id])
+  statusHistory StoryStatusHistory[]
+
+  @@index([status, publishedAt])
+  @@index([category, status])
+  @@index([featuredOrder])
+  @@index([userId])
+  @@map("stories")
+}
+
+model StoryStatusHistory {
+  id         String         @id @default(cuid())
+  storyId    String
+  fromStatus ContentStatus?
+  toStatus   ContentStatus
+  changedBy  String?
+  notes      String?
+  createdAt  DateTime       @default(now())
+
+  story Story @relation(fields: [storyId], references: [id], onDelete: Cascade)
+
+  @@index([storyId, createdAt])
+  @@map("story_status_history")
+}
+
+// 후원 계좌
+model DonationAccount {
+  id            String   @id @default(cuid())
+  bankName      String
+  accountNumber String
+  accountHolder String
+  purpose       String?
+  isActive      Boolean  @default(true)
+  displayOrder  Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([isActive, displayOrder])
+  @@map("donation_accounts")
+}
+
+// ===== Enums for 기관 홍보 모델 =====
+
+enum FormType {
+  EMERGENCY_CARE
+  B2B_INQUIRY
+  PARTNERSHIP
+  SUPPORT_INQUIRY
+}
+
+enum SubmissionStatus {
+  PENDING
+  REVIEWING
+  CONTACTED
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum Priority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum StoryCategory {
+  PARENTING
+  DAILY_LIFE
+  ADVOCACY
+  SUCCESS
+}
+
+enum ContentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  PUBLISHED
+  ARCHIVED
 }

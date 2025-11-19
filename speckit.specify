@@ -1,0 +1,140 @@
+#!/bin/bash
+# speckit.specify - SpecKit 테스트 실행 스크립트
+
+set -e
+
+# 색상 정의
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# 사용 가능한 speckit 테스트 목록
+SPECS=(
+  "bash"
+  "dash"
+  "desktop-file-validate"
+  "eslint"
+  "git"
+  "gmake"
+  "jq"
+  "markdownlint"
+  "markuplint"
+  "shellcheck"
+  "shellspec"
+  "stylelint"
+  "tidy"
+)
+
+# 도움말 표시
+show_help() {
+  echo -e "${BLUE}SpecKit 테스트 실행 스크립트${NC}"
+  echo ""
+  echo "사용법:"
+  echo "  ./speckit.specify [옵션] [테스트명]"
+  echo ""
+  echo "옵션:"
+  echo "  -h, --help     이 도움말 표시"
+  echo "  -l, --list     사용 가능한 모든 테스트 목록 표시"
+  echo "  -a, --all      모든 테스트 실행"
+  echo ""
+  echo "사용 가능한 테스트:"
+  for spec in "${SPECS[@]}"; do
+    echo "  - $spec"
+  done
+  echo ""
+  echo "예제:"
+  echo "  ./speckit.specify git           # Git 테스트 실행"
+  echo "  ./speckit.specify eslint        # ESLint 테스트 실행"
+  echo "  ./speckit.specify --all         # 모든 테스트 실행"
+}
+
+# 테스트 목록 표시
+list_specs() {
+  echo -e "${BLUE}사용 가능한 SpecKit 테스트:${NC}"
+  for spec in "${SPECS[@]}"; do
+    spec_file="node_modules/speckit/spec/${spec}_spec.sh"
+    if [ -f "$spec_file" ]; then
+      echo -e "  ${GREEN}✓${NC} $spec"
+    else
+      echo -e "  ${RED}✗${NC} $spec (파일 없음)"
+    fi
+  done
+}
+
+# 단일 테스트 실행
+run_spec() {
+  local spec_name=$1
+  local spec_file="node_modules/speckit/spec/${spec_name}_spec.sh"
+
+  if [ ! -f "$spec_file" ]; then
+    echo -e "${RED}오류: '$spec_name' 테스트 파일을 찾을 수 없습니다.${NC}"
+    echo "사용 가능한 테스트 목록을 보려면: ./speckit.specify --list"
+    return 1
+  fi
+
+  echo -e "${BLUE}=== $spec_name 테스트 실행 중... ===${NC}"
+  shellspec "$spec_file"
+
+  if [ $? -eq 0 ]; then
+    echo -e "${GREEN}✓ $spec_name 테스트 성공${NC}"
+  else
+    echo -e "${RED}✗ $spec_name 테스트 실패${NC}"
+    return 1
+  fi
+}
+
+# 모든 테스트 실행
+run_all_specs() {
+  echo -e "${BLUE}=== 모든 SpecKit 테스트 실행 중... ===${NC}"
+  local failed_tests=()
+
+  for spec in "${SPECS[@]}"; do
+    spec_file="node_modules/speckit/spec/${spec}_spec.sh"
+    if [ -f "$spec_file" ]; then
+      echo ""
+      if ! run_spec "$spec"; then
+        failed_tests+=("$spec")
+      fi
+    fi
+  done
+
+  echo ""
+  echo -e "${BLUE}=== 테스트 요약 ===${NC}"
+  if [ ${#failed_tests[@]} -eq 0 ]; then
+    echo -e "${GREEN}모든 테스트 성공!${NC}"
+  else
+    echo -e "${RED}실패한 테스트:${NC}"
+    for test in "${failed_tests[@]}"; do
+      echo -e "  ${RED}✗${NC} $test"
+    done
+    return 1
+  fi
+}
+
+# 메인 로직
+main() {
+  # 인자가 없으면 도움말 표시
+  if [ $# -eq 0 ]; then
+    show_help
+    exit 0
+  fi
+
+  case "$1" in
+    -h|--help)
+      show_help
+      ;;
+    -l|--list)
+      list_specs
+      ;;
+    -a|--all)
+      run_all_specs
+      ;;
+    *)
+      run_spec "$1"
+      ;;
+  esac
+}
+
+main "$@"

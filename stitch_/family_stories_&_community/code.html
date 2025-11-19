@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>가족 이야기 &amp; 커뮤니티 - 사회적 협동조합 허브</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#4A90E2",
+              "secondary": "#F5A623",
+              "background-light": "#F4F4F4",
+              "background-dark": "#101922",
+              "text-light": "#333333",
+              "text-dark": "#E0E0E0",
+              "neutral-light": "#FFFFFF",
+              "neutral-dark": "#1E293B",
+            },
+            fontFamily: {
+              "display": ["Noto Sans KR", "Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+<div class="relative flex min-h-screen w-full flex-col">
+<header class="sticky top-0 z-50 w-full bg-neutral-light/80 dark:bg-neutral-dark/80 backdrop-blur-sm">
+<div class="container mx-auto flex items-center justify-between whitespace-nowrap border-b border-slate-200 dark:border-slate-700 px-4 py-3">
+<div class="flex items-center gap-4">
+<div class="size-6 text-primary">
+<svg fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold tracking-[-0.015em] text-text-light dark:text-text-dark">사회적 협동조합 허브</h2>
+</div>
+<nav class="hidden items-center gap-9 md:flex">
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary" href="#">홈</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary" href="#">소개</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary" href="#">서비스</a>
+<a class="text-sm font-bold text-primary dark:text-primary" href="#">가족 이야기</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary" href="#">파트너</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary" href="#">문의</a>
+</nav>
+<div class="flex items-center gap-2">
+<button class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-secondary px-4 text-sm font-bold text-white transition-opacity hover:opacity-90">
+<span class="truncate">후원하기</span>
+</button>
+<button class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-primary px-4 text-sm font-bold text-white transition-opacity hover:opacity-90">
+<span class="truncate">로그인</span>
+</button>
+</div>
+</div>
+</header>
+<main class="container mx-auto flex flex-1 flex-col px-4 py-8">
+<div class="w-full @container">
+<div class="@[480px]:p-4">
+<div class="flex min-h-[400px] flex-col items-center justify-center gap-6 rounded-xl bg-cover bg-center bg-no-repeat p-4 text-center @[480px]:gap-8" data-alt="한국인 가족이 따뜻한 햇살 아래 함께 손을 맞잡고 있는 모습. 공동체와 지지를 상징." style='background-image: linear-gradient(rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.5) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBsu7eM69YK-mT_HiTCoTO_ay9kzmpYM-dj0IDUFuEviiif1mhx5fcJ_1MghT3H7WrOK1BBmQuvELBIRHONUEKzqQU4Bi8uq0SIKyFhp52nU5QSUtB2SxbOfMB4rN2qaU5_Zs6P7nnIp-vgQye7B9ePs0VAblJfA5xaN4LZ-uOfqjClLUtpEpF186l152Ormv7bvRpo-BgVCJk_zdbBYIYhdm5MetLzIV4_RlT8DL5FjiLr-GxYAttV2Ky98gO1iWbn37svzy05HMDF");'>
+<div class="flex flex-col gap-2">
+<h1 class="text-4xl font-black leading-tight tracking-[-0.033em] text-white @[480px]:text-5xl">함께하는 여정, 함께하는 힘</h1>
+<p class="max-w-2xl text-base font-normal leading-normal text-white/90 @[480px]:text-lg">우리 가족 공동체가 경험과 이야기를 통해 서로 연결되고, 배우고, 성장하는 공간입니다.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sticky top-[61px] z-40 flex flex-col gap-4 bg-background-light/90 py-6 backdrop-blur-sm dark:bg-background-dark/90 md:flex-row md:items-center">
+<div class="flex-grow">
+<label class="flex h-12 w-full min-w-40 flex-col">
+<div class="flex h-full w-full flex-1 items-stretch rounded-lg">
+<div class="flex items-center justify-center rounded-l-lg border-y border-l border-slate-300 bg-neutral-light pl-4 text-slate-500 dark:border-slate-600 dark:bg-neutral-dark dark:text-slate-400">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input h-full w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg border border-slate-300 bg-neutral-light px-4 text-base font-normal leading-normal text-text-light placeholder:text-slate-500 focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/50 dark:border-slate-600 dark:bg-neutral-dark dark:text-text-dark dark:placeholder:text-slate-400" placeholder="키워드로 이야기 검색" value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-wrap gap-2">
+<button class="flex h-12 shrink-0 items-center justify-center gap-x-2 rounded-lg border border-slate-300 bg-neutral-light px-4 text-sm font-medium text-text-light transition-colors hover:bg-slate-100 dark:border-slate-600 dark:bg-neutral-dark dark:text-text-dark dark:hover:bg-slate-700">
+<span>양육</span>
+<span class="material-symbols-outlined text-base">expand_more</span>
+</button>
+<button class="flex h-12 shrink-0 items-center justify-center gap-x-2 rounded-lg border border-slate-300 bg-neutral-light px-4 text-sm font-medium text-text-light transition-colors hover:bg-slate-100 dark:border-slate-600 dark:bg-neutral-dark dark:text-text-dark dark:hover:bg-slate-700">
+<span>일상생활</span>
+<span class="material-symbols-outlined text-base">expand_more</span>
+</button>
+<button class="flex h-12 shrink-0 items-center justify-center gap-x-2 rounded-lg border border-slate-300 bg-neutral-light px-4 text-sm font-medium text-text-light transition-colors hover:bg-slate-100 dark:border-slate-600 dark:bg-neutral-dark dark:text-text-dark dark:hover:bg-slate-700">
+<span>권익옹호</span>
+<span class="material-symbols-outlined text-base">expand_more</span>
+</button>
+<button class="flex h-12 shrink-0 items-center justify-center gap-x-2 rounded-lg border border-slate-300 bg-neutral-light px-4 text-sm font-medium text-text-light transition-colors hover:bg-slate-100 dark:border-slate-600 dark:bg-neutral-dark dark:text-text-dark dark:hover:bg-slate-700">
+<span>성공사례</span>
+<span class="material-symbols-outlined text-base">expand_more</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 py-4">
+<div class="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-neutral-light shadow-sm transition-shadow hover:shadow-lg dark:border-slate-700 dark:bg-neutral-dark">
+<div class="aspect-video w-full bg-cover bg-center bg-no-repeat" data-alt="햇살 좋은 거실에서 한국인 가족이 함께 웃으며 퍼즐을 맞추는 모습." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuARtRbG_A0A8Vi4D2EggG8PeX7xr2QgPnvJkSVOMpTGDH1Yz15nfcVCPx7jfqFfkUa2_JObHw2rTgMfjHZPsnLPzSQ7gFrhJtj-cwCwfFzekQvRrAE5bdEoeKgKcKetwBeezYaelSs7RiHHkJWq7RW4aK2Gu2ghK5iaDL2mTIyNtsInYf9YpIs9YtDOL9YYisRtVRStQcI-B2Lgh08T7-wAriUJT-E3E4Nw14iH32n5BxBPJECae_jgU8kWEapOtiUlsZkMmXZjdyI6");'></div>
+<div class="flex flex-grow flex-col gap-3 p-4">
+<div class="flex gap-2"><span class="rounded-full bg-primary/20 px-3 py-1 text-xs font-medium text-primary">양육</span></div>
+<h3 class="text-lg font-bold leading-tight text-text-light dark:text-text-dark">우리의 새로운 일상을 찾아서</h3>
+<p class="flex-grow text-sm text-slate-600 dark:text-slate-400">변화에 적응하고 우리가 몰랐던 힘을 발견하는 가슴 따뜻한 이야기...</p>
+<p class="text-sm text-slate-500 dark:text-slate-500">김씨 가족 • 2일 전</p>
+</div>
+</div>
+<div class="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-neutral-light shadow-sm transition-shadow hover:shadow-lg dark:border-slate-700 dark:bg-neutral-dark">
+<div class="aspect-video w-full bg-cover bg-center bg-no-repeat" data-alt="한국 아이의 손이 엄지척을 하는 클로즈업 사진." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAKTdlu6PGJowC9hbC-enLaV9qzG43nSJG53P_32DpcvzCwFjRvZAHL1xR2gzu3xUaq7Q_7PJxMIhTrmskGyL9ubjl8I_7YqKBh9OKMG_kY8_qZDJSEWyIhtyNYSzOlpXC4_dX_ODtULj72CaBf36S-PzUlVbOjT1o_LK5ROPi_-25OOJCG1aJLfyCU-ixFwEdFqwIIR8bKL_OTUelgL0bqrPxqJ_GgLilbB_2i9LWWD8-yP0la_OKAFV-O0Wh7CP_uoBD-CsQ1CCss");'></div>
+<div class="flex flex-grow flex-col gap-3 p-4">
+<div class="flex gap-2"><span class="rounded-full bg-primary/20 px-3 py-1 text-xs font-medium text-primary">성공사례</span></div>
+<h3 class="text-lg font-bold leading-tight text-text-light dark:text-text-dark">작은 승리들로 가득한 하루</h3>
+<p class="flex-grow text-sm text-slate-600 dark:text-slate-400">때로는 가장 큰 성공은 앞으로 나아가는 작은 발걸음들입니다. 그런 날들 중 하루를 돌아봅니다...</p>
+<p class="text-sm text-slate-500 dark:text-slate-500">익명 • 4일 전</p>
+</div>
+</div>
+<div class="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-neutral-light shadow-sm transition-shadow hover:shadow-lg dark:border-slate-700 dark:bg-neutral-dark">
+<div class="aspect-video w-full bg-cover bg-center bg-no-repeat" data-alt="교실에서 한국인 부모와 교사가 작은 책상에 마주 앉아 따뜻하게 대화하는 모습." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCS3hRw5vJvrWXwiZ9vm8zXb-bWZvvfrqluaQVFOIUSdo1zY0uTmsHPIgM5a9yn8XJMpMgPjt7UcJDInv16qz3E64ui2Cb8wZcb35ZiojAVeChugBhipaX0VRCltSAQKMTrC5aE8UZa-WCDvSD4CaqgHVuXr_gbmcMB2gy2_v1ajytu4j-inUMFV7skrOOdG6eY-SwBTqHLMnw3Kx5bfYgI1R6Evcnv6cdBTj8D1y2F_vhxcxTEzjYsm9vHtaofvr4Odlsh-MupT_sA");'></div>
+<div class="flex flex-grow flex-col gap-3 p-4">
+<div class="flex gap-2"><span class="rounded-full bg-primary/20 px-3 py-1 text-xs font-medium text-primary">권익옹호</span></div>
+<h3 class="text-lg font-bold leading-tight text-text-light dark:text-text-dark">학교 시스템 이해하기</h3>
+<p class="flex-grow text-sm text-slate-600 dark:text-slate-400">우리 아이를 위해 포용적인 학습 환경을 만들기 위해 교사 및 전문가들과 협력한 방법...</p>
+<p class="text-sm text-slate-500 dark:text-slate-500">이영희 • 1주 전</p>
+</div>
+</div>
+<div class="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-neutral-light shadow-sm transition-shadow hover:shadow-lg dark:border-slate-700 dark:bg-neutral-dark">
+<div class="aspect-video w-full bg-cover bg-center bg-no-repeat" data-alt="다양한 연령대의 한국인들이 원을 그리고 앉아 서로를 지지하며 미소짓는 모습." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB6tiZ2y65tr2Kz9LMs2p-N4GG7atEf-l12ft5Uuew0KsBl_AMwdD9JhvgXgllKtDqxsSkJU3OaUbBDc3Nr5vivCDmfC9dfUraOCMPsJlJho1PF4H2VxSjJGxL5rKo1nPISeq42cSLevWAYEHKS0uboLVUg4IVI17mQ7ncRJ9UwiY2PWH13ZQ9iRX7LeAX8wdPhb-zm6bAKrCqy3tU2HDXGK9a_xlnWLHASuhakhXPM2myixBXoabqbvMhD1ayOul0jEn3xWaRtwLRl");'></div>
+<div class="flex flex-grow flex-col gap-3 p-4">
+<div class="flex gap-2"><span class="rounded-full bg-primary/20 px-3 py-1 text-xs font-medium text-primary">일상생활</span></div>
+<h3 class="text-lg font-bold leading-tight text-text-light dark:text-text-dark">공동체 지지의 힘</h3>
+<p class="flex-grow text-sm text-slate-600 dark:text-slate-400">협동조합을 통해 만난 놀라운 사람들 덕분에 우리는 결코 외롭지 않았습니다...</p>
+<p class="text-sm text-slate-500 dark:text-slate-500">박철수 • 2주 전</p>
+</div>
+</div>
+<div class="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-neutral-light shadow-sm transition-shadow hover:shadow-lg dark:border-slate-700 dark:bg-neutral-dark">
+<div class="aspect-video w-full bg-cover bg-center bg-no-repeat" data-alt="한국 아이가 바닥에서 알록달록한 블록을 가지고 즐겁게 노는 모습." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDPBTSNSZzClPuwq4Mzirc6CelcuNVje-7z9FFR9A_l3r4egyYHevqfxXYhveb5LresFm9F7aRsZti6TnPpvnTs7mAo84TQSjNB8r8gUCjFmw3ds3eEyh41Ve3KyVrRVis0OggRVC9FcYQPJ5hhJ7NaY-1lqwm3AaTPJhSUBMNkgql3qhpW_fg4J_EbpvkClCVSt_lpqq-T2CE8k_WC4_ERsx_lmoqDnV9JtK9wK61D6q5iWTRXXW4DzyqjF9YodD6WLzFr-3_VWV96");'></div>
+<div class="flex flex-grow flex-col gap-3 p-4">
+<div class="flex gap-2"><span class="rounded-full bg-primary/20 px-3 py-1 text-xs font-medium text-primary">성공사례</span></div>
+<h3 class="text-lg font-bold leading-tight text-text-light dark:text-text-dark">성장의 순간들을 축하하며</h3>
+<p class="flex-grow text-sm text-slate-600 dark:text-slate-400">첫 단어부터 첫 걸음까지, 모든 성취는 회복력과 사랑의 증거입니다...</p>
+<p class="text-sm text-slate-500 dark:text-slate-500">최씨 가족 • 2주 전</p>
+</div>
+</div>
+<div class="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-neutral-light shadow-sm transition-shadow hover:shadow-lg dark:border-slate-700 dark:bg-neutral-dark">
+<div class="aspect-video w-full bg-cover bg-center bg-no-repeat" data-alt="한 사람이 보조 기술 기능이 활성화된 태블릿을 사용하는 모습." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA8Y-ctIyeQpsiRVxS1RqismbDjD0l_bdNZ8dr2xaXMrJN0juzrcVR8XhWJDVYLv5p-ogdSIG5IFenFoM9g01PW92T_QihRbd6JxKaN7hs0Sh9i2EqdDr0QVCQ5sUbb7DZGtjBixze6wapeR35jc0ZeP6j2dcUKD2oM3Bn7kdsJ0acAHkcrez4iJMFR3Ze1P6N1L9OpEt5F2yyEw4VutwSTuP1rXqL5LNOh8RH2efrWgiKHbPMQCpw_qJG355NHyw14Vw6bPQUo8zcf");'></div>
+<div class="flex flex-grow flex-col gap-3 p-4">
+<div class="flex gap-2"><span class="rounded-full bg-primary/20 px-3 py-1 text-xs font-medium text-primary">일상생활</span></div>
+<h3 class="text-lg font-bold leading-tight text-text-light dark:text-text-dark">기술과 함께한 우리의 여정</h3>
+<p class="flex-grow text-sm text-slate-600 dark:text-slate-400">우리 가족에게 새로운 가능성을 열어준 도구와 기술들을 탐색합니다...</p>
+<p class="text-sm text-slate-500 dark:text-slate-500">익명 • 3주 전</p>
+</div>
+</div>
+</div>
+<div class="my-10 flex flex-col items-center justify-between gap-6 rounded-xl bg-primary/20 p-8 text-center dark:bg-primary/30 md:flex-row md:text-left">
+<div class="flex flex-col gap-2">
+<h2 class="text-2xl font-bold text-text-light dark:text-white">당신의 이야기는 소중합니다.</h2>
+<p class="text-slate-700 dark:text-slate-200">당신의 경험을 공유하여 더 강한 커뮤니티를 만드는 데 도움을 주세요.</p>
+</div>
+<button class="flex h-12 min-w-[84px] shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-secondary px-6 text-base font-bold text-white shadow-lg transition-transform hover:scale-105">
+<span>사연 보내기</span>
+</button>
+</div>
+<nav aria-label="Pagination" class="flex items-center justify-center gap-2 py-4">
+<button aria-label="이전 페이지" class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-300 bg-neutral-light text-slate-500 transition-colors hover:bg-slate-100 dark:border-slate-600 dark:bg-neutral-dark dark:text-slate-400 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<a aria-current="page" class="flex h-10 w-10 items-center justify-center rounded-lg border border-primary bg-primary text-sm font-medium text-white dark:border-primary dark:bg-primary" href="#">1</a>
+<a class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-300 bg-neutral-light text-sm font-medium text-text-light transition-colors hover:bg-slate-100 dark:border-slate-600 dark:bg-neutral-dark dark:text-text-dark dark:hover:bg-slate-700" href="#">2</a>
+<a class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-300 bg-neutral-light text-sm font-medium text-text-light transition-colors hover:bg-slate-100 dark:border-slate-600 dark:bg-neutral-dark dark:text-text-dark dark:hover:bg-slate-700" href="#">3</a>
+<span class="flex h-10 w-10 items-center justify-center text-sm font-medium text-slate-500 dark:text-slate-400">...</span>
+<a class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-300 bg-neutral-light text-sm font-medium text-text-light transition-colors hover:bg-slate-100 dark:border-slate-600 dark:bg-neutral-dark dark:text-text-dark dark:hover:bg-slate-700" href="#">8</a>
+<button aria-label="다음 페이지" class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-300 bg-neutral-light text-slate-500 transition-colors hover:bg-slate-100 dark:border-slate-600 dark:bg-neutral-dark dark:text-slate-400 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</nav>
+</main>
+<footer class="w-full bg-neutral-light dark:bg-neutral-dark border-t border-slate-200 dark:border-slate-700">
+<div class="container mx-auto grid grid-cols-2 gap-8 px-4 py-10 md:grid-cols-4">
+<div>
+<h3 class="mb-4 font-bold text-text-light dark:text-text-dark">메뉴</h3>
+<ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+<li><a class="hover:text-primary" href="#">홈</a></li>
+<li><a class="hover:text-primary" href="#">소개</a></li>
+<li><a class="hover:text-primary" href="#">서비스</a></li>
+<li><a class="hover:text-primary" href="#">가족 이야기</a></li>
+<li><a class="hover:text-primary" href="#">파트너</a></li>
+</ul>
+</div>
+<div>
+<h3 class="mb-4 font-bold text-text-light dark:text-text-dark">참여하기</h3>
+<ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+<li><a class="hover:text-primary" href="#">후원하기</a></li>
+<li><a class="hover:text-primary" href="#">자원봉사</a></li>
+<li><a class="hover:text-primary" href="#">사연 보내기</a></li>
+<li><a class="hover:text-primary" href="#">파트너십</a></li>
+</ul>
+</div>
+<div>
+<h3 class="mb-4 font-bold text-text-light dark:text-text-dark">약관</h3>
+<ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+<li><a class="hover:text-primary" href="#">개인정보처리방침</a></li>
+<li><a class="hover:text-primary" href="#">서비스 이용약관</a></li>
+<li><a class="hover:text-primary" href="#">접근성</a></li>
+</ul>
+</div>
+<div>
+<h3 class="mb-4 font-bold text-text-light dark:text-text-dark">문의</h3>
+<ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+<li>서울특별시 희망구 나눔로 123</li>
+<li>이메일: contact@coophub.org</li>
+</ul>
+</div>
+</div>
+<div class="border-t border-slate-200 dark:border-slate-700 py-4 text-center">
+<p class="text-sm text-slate-500 dark:text-slate-400">© 2024 사회적 협동조합 허브. 모든 권리 보유.</p>
+</div>
+</footer>
+</div>
+</body></html>

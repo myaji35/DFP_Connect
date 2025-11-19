@@ -1,66 +1,28 @@
 # Google Cloud Build configuration for DFP Connect
-# Project ID: marketsphere-476701
+# Project ID: dfp-connect-476703
 
 steps:
-  # Install dependencies
-  - name: 'node:20'
-    entrypoint: npm
-    args: ['install']
-
-  # Build the Next.js application
-  - name: 'node:20'
-    entrypoint: npm
-    args: ['run', 'build']
-    env:
-      - 'NODE_ENV=production'
-      - 'NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${_CLERK_PUBLISHABLE_KEY}'
-      - 'CLERK_SECRET_KEY=${_CLERK_SECRET_KEY}'
-
-  # Build Docker image
+  # Build Docker image with build args
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
+      - '--build-arg'
+      - 'NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_b3JnYW5pYy10cm9sbC03NS5jbGVyay5hY2NvdW50cy5kZXYk'
+      - '--build-arg'
+      - 'CLERK_SECRET_KEY=sk_test_aBbPiRAv6pYi78WoQ5cxSSzrvGwmyvAvfKrfaXwvyT'
+      - '--build-arg'
+      - 'DATABASE_URL=postgresql://postgres:DFPConnect2025!@34.158.210.184:5432/dfpconnect?schema=public'
       - '-t'
-      - 'gcr.io/marketsphere-476701/dfp-connect:$SHORT_SHA'
+      - 'gcr.io/dfp-connect-476703/dfp-connect:latest'
       - '-t'
-      - 'gcr.io/marketsphere-476701/dfp-connect:latest'
+      - 'gcr.io/dfp-connect-476703/dfp-connect:$BUILD_ID'
       - '.'
-
-  # Push Docker image to GCR
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - 'push'
-      - 'gcr.io/marketsphere-476701/dfp-connect:$SHORT_SHA'
-
-  # Deploy to Cloud Run
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: gcloud
-    args:
-      - 'run'
-      - 'deploy'
-      - 'dfp-connect'
-      - '--image'
-      - 'gcr.io/marketsphere-476701/dfp-connect:$SHORT_SHA'
-      - '--region'
-      - 'asia-northeast3'
-      - '--platform'
-      - 'managed'
-      - '--allow-unauthenticated'
-      - '--memory'
-      - '512Mi'
-      - '--cpu'
-      - '1'
-      - '--min-instances'
-      - '0'
-      - '--max-instances'
-      - '10'
-      - '--set-env-vars'
-      - 'NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${_CLERK_PUBLISHABLE_KEY},CLERK_SECRET_KEY=${_CLERK_SECRET_KEY}'
+    timeout: 1800s
 
 # Store images in Google Container Registry
 images:
-  - 'gcr.io/marketsphere-476701/dfp-connect:$SHORT_SHA'
-  - 'gcr.io/marketsphere-476701/dfp-connect:latest'
+  - 'gcr.io/dfp-connect-476703/dfp-connect:latest'
+  - 'gcr.io/dfp-connect-476703/dfp-connect:$BUILD_ID'
 
 # Build options
 options:

@@ -65,13 +65,30 @@ DFP_Connect/
 │   ├── persona-selector.tsx     # 페르소나 선택
 │   └── emergency-care-button.tsx # 긴급돌봄 버튼
 ├── lib/                         # 유틸리티 함수
+├── stitch_/                     # 화면 디자인 레퍼런스
+│   ├── main_landing_page/       # 메인 랜딩 페이지
+│   ├── about_us_&_vision/       # 소개 및 비전
+│   ├── family_services_overview/# 가족 서비스
+│   ├── family_stories_&_community/ # 가족 이야기
+│   ├── b2b_solutions_for_partners/ # B2B 솔루션
+│   └── support_&_impact_for_sponsors/ # 후원 및 임팩트
 ├── docs/                        # 문서
-│   └── brainstorming-session-results.md
+│   ├── brainstorming-session-results.md
+│   ├── SCREEN_DESIGN.md         # 화면 디자인 명세서
+│   ├── prd.md                   # 제품 요구사항 문서
+│   └── DEPLOYMENT.md            # 배포 가이드
 ├── .env.local                   # 환경변수 (Git 제외)
 ├── Dockerfile                   # Docker 설정
-├── cloudbuild.yaml             # Cloud Build 설정
-└── DEPLOYMENT.md               # 배포 가이드
+└── cloudbuild.yaml             # Cloud Build 설정
 ```
+
+## 📖 프로젝트 문서
+
+### 핵심 문서
+- **[PRD (Product Requirements Document)](./prd.md)** - 제품 요구사항 정의
+- **[화면 디자인 명세서](./SCREEN_DESIGN.md)** - UI/UX 디자인 가이드 및 Tailwind CSS 기술 명세
+- **[배포 가이드](./DEPLOYMENT.md)** - GCP Cloud Run 배포 절차
+- **[Claude 가이드](./CLAUDE.md)** - AI 개발 어시스턴트를 위한 프로젝트 지침
 
 ---
 
