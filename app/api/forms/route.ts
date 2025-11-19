@@ -76,8 +76,8 @@ export async function POST(request: NextRequest) {
         // 상태 이력도 함께 생성
         statusHistory: {
           create: {
-            status: 'PENDING',
-            note: '폼 제출 접수',
+            toStatus: 'PENDING',
+            notes: '폼 제출 접수',
           },
         },
       },
