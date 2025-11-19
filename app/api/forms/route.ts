@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
     const encryptedPhone = encrypt(data.phone)
 
     // 6. 긴급돌봄인 경우 우선순위 자동 설정
-    const priority = data.formType === 'EMERGENCY_CARE' ? 'HIGH' : 'MEDIUM'
+    const priority = data.formType === 'EMERGENCY_CARE' ? 'HIGH' : 'NORMAL'
 
     // 7. 폼 제출 데이터 저장
     const formSubmission = await prisma.formSubmission.create({
