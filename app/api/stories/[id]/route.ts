@@ -9,10 +9,10 @@ import { apiSuccess, apiNotFound, handleApiError } from '@/lib/api-response'
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params
+    const { id } = await params
 
     // 스토리 조회
     const story = await prisma.story.findUnique({
