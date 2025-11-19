@@ -60,7 +60,7 @@ export function EmergencyForm() {
 
       if (!validation.success) {
         const fieldErrors: EmergencyFormState['fieldErrors'] = {}
-        validation.error.errors.forEach((err) => {
+        validation.error.issues.forEach((err) => {
           const field = err.path[0] as keyof typeof fieldErrors
           fieldErrors[field] = err.message
         })

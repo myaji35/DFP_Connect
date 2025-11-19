@@ -70,7 +70,7 @@ export default function StorySubmitPage() {
 
       if (!validation.success) {
         const fieldErrors: any = {}
-        validation.error.errors.forEach((err) => {
+        validation.error.issues.forEach((err) => {
           fieldErrors[err.path[0]] = err.message
         })
         setErrors(fieldErrors)
