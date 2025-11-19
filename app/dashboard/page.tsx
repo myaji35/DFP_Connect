@@ -68,8 +68,8 @@ export default async function DashboardPage() {
             service: true
           }
         }
-      }
-    })
+      } as any // TODO: Fix relation in Phase 8
+    }) as any
   }
 
   return (
