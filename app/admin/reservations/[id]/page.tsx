@@ -59,6 +59,12 @@ export default async function AdminReservationDetailPage({
     )
   }
 
+  // Transform reservation data for the form
+  const reservationForForm = {
+    ...reservation,
+    reservedDate: reservation.reservedDate.toISOString().split('T')[0] // Convert Date to YYYY-MM-DD string
+  }
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="mb-8">
@@ -68,7 +74,7 @@ export default async function AdminReservationDetailPage({
         </p>
       </div>
 
-      <ReservationDetailForm reservation={reservation} />
+      <ReservationDetailForm reservation={reservationForForm} />
     </div>
   )
 }
