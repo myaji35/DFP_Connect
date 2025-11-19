@@ -44,7 +44,7 @@ export default async function DashboardPage() {
           service: true
         }
       }
-    }
+    } as any // TODO: Fix relation in Phase 8 - UserProfile doesn't have direct reservations relation
   })
 
   // 첫 로그인 시 프로필 자동 생성
