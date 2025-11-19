@@ -72,6 +72,11 @@ export default async function DashboardPage() {
     }) as any
   }
 
+  // userProfile은 항상 존재함 (위에서 생성)
+  if (!userProfile) {
+    return <div>Error loading profile</div>
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-purple-50">
       {/* Header */}
