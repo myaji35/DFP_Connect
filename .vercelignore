@@ -1,0 +1,9 @@
+# Exclude admin and dashboard pages from Vercel build (Phase 8)
+app/admin
+app/dashboard
+app/(protected)
+
+# Components used only by admin/dashboard
+components/reservation-*.tsx
+components/application-*.tsx
+components/family-*.tsx
