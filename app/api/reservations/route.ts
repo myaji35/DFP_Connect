@@ -38,6 +38,9 @@ export async function POST(request: NextRequest) {
         id: validatedData.applicationId,
         userId: userProfile.id,
         status: 'APPROVED' // 승인된 신청만 예약 가능
+      },
+      include: {
+        service: true
       }
     })
 
