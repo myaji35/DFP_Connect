@@ -48,7 +48,7 @@ export function apiError(
 export function apiValidationError(
   error: ZodError
 ): NextResponse<ApiResponse> {
-  const details = error.errors.map((err) => ({
+  const details = error.issues.map((err) => ({
     field: err.path.join('.'),
     message: err.message,
   }))

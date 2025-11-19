@@ -143,9 +143,9 @@ export async function POST(request: NextRequest) {
     }, { status: 201 })
   } catch (error) {
     if (error instanceof z.ZodError) {
-      console.error('POST /api/applications validation error:', error.errors)
+      console.error('POST /api/applications validation error:', error.issues)
       return NextResponse.json(
-        { error: '입력 데이터가 올바르지 않습니다', details: error.errors },
+        { error: '입력 데이터가 올바르지 않습니다', details: error.issues },
         { status: 400 }
       )
     }
