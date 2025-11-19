@@ -91,11 +91,12 @@ export async function GET(request: NextRequest) {
       },
     })
 
-    // 내용 요약 (첫 200자)
+    // 내용 요약 (첫 200자) 및 tags 파싱
     const storiesWithSummary = stories.map((story) => ({
       ...story,
       summary: story.content.slice(0, 200) + (story.content.length > 200 ? '...' : ''),
       content: undefined, // 목록에서는 전체 내용 제외
+      tags: story.tags ? JSON.parse(story.tags) : [],
     }))
 
     // 캐시 저장 (검색어 없을 때만)
@@ -171,7 +172,7 @@ export async function POST(request: NextRequest) {
         email: encryptedEmail,
         phone: encryptedPhone,
         featuredImage: data.featuredImage,
-        tags: data.tags || [],
+        tags: data.tags && data.tags.length > 0 ? JSON.stringify(data.tags) : null,
         status: 'PENDING', // 관리자 승인 필요
         // 상태 이력도 함께 생성
         statusHistory: {

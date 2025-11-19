@@ -55,6 +55,7 @@ export async function GET(
     return apiSuccess({
       ...story,
       viewCount: story.viewCount + 1,
+      tags: story.tags ? JSON.parse(story.tags) : [],
     })
   } catch (error) {
     return handleApiError(error)
