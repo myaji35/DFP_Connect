@@ -1,5 +1,8 @@
 'use client'
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 import { useState, useEffect } from 'react'
 import { StoryCard } from '@/components/public/story-card'
 import { Loading } from '@/components/ui/loading'

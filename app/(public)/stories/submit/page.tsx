@@ -7,6 +7,9 @@ import { ButtonLoading } from '@/components/ui/loading'
 import { PenSquare, AlertCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 export default function StorySubmitPage() {
   const router = useRouter()
   const { success, error: showError } = useToast()

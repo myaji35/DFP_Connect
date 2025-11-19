@@ -1,5 +1,8 @@
 'use client'
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 import { useState, useEffect } from 'react'
 import { Loading } from '@/components/ui/loading'
 import { Calendar, Eye, User, ArrowLeft } from 'lucide-react'
