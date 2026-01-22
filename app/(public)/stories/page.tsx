@@ -6,32 +6,37 @@ export const dynamic = 'force-dynamic'
 import { useState, useEffect } from 'react'
 import { StoryCard } from '@/components/public/story-card'
 import { Loading } from '@/components/ui/loading'
+import { SearchBar } from '@/components/interactive/SearchBar'
+import { CategoryFilter } from '@/components/interactive/CategoryFilter'
 import { BookOpen, PenSquare } from 'lucide-react'
 import Link from 'next/link'
 
 export default function StoriesPage() {
   const [stories, setStories] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  const [selectedCategory, setSelectedCategory] = useState<string>('ALL')
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState<string>('')
 
   const categories = [
-    { value: 'ALL', label: '전체' },
-    { value: 'PARENTING', label: '육아' },
-    { value: 'DAILY_LIFE', label: '일상' },
-    { value: 'ADVOCACY', label: '권익옹호' },
-    { value: 'SUCCESS', label: '성공사례' },
+    { id: 'PARENTING', label: '육아' },
+    { id: 'DAILY_LIFE', label: '일상' },
+    { id: 'ADVOCACY', label: '권익옹호' },
+    { id: 'SUCCESS', label: '성공사례' },
   ]
 
   useEffect(() => {
     fetchStories()
-  }, [selectedCategory])
+  }, [selectedCategory, searchQuery])
 
   const fetchStories = async () => {
     setLoading(true)
     try {
       const params = new URLSearchParams()
-      if (selectedCategory !== 'ALL') {
+      if (selectedCategory) {
         params.append('category', selectedCategory)
+      }
+      if (searchQuery) {
+        params.append('search', searchQuery)
       }
 
       const response = await fetch(`/api/stories?${params}`)
@@ -45,6 +50,14 @@ export default function StoriesPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query)
+  }
+
+  const handleCategoryChange = (categoryId: string | null) => {
+    setSelectedCategory(categoryId)
   }
 
   return (
@@ -73,24 +86,40 @@ export default function StoriesPage() {
         </div>
       </section>
 
-      {/* Filters */}
-      <section className="py-8 px-4 bg-white border-b sticky top-20 z-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-wrap gap-3 justify-center">
-            {categories.map((cat) => (
-              <button
-                key={cat.value}
-                onClick={() => setSelectedCategory(cat.value)}
-                className={`px-6 py-2 rounded-full font-semibold transition-all ${
-                  selectedCategory === cat.value
-                    ? 'bg-purple-600 text-white shadow-lg'
-                    : 'bg-gray-100 text-gray-700 hover:bg-purple-100 hover:text-purple-600'
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
+      {/* Search & Filters */}
+      <section className="py-8 px-4 bg-white dark:bg-gray-900 border-b dark:border-gray-800 sticky top-20 z-10 shadow-sm">
+        <div className="max-w-7xl mx-auto space-y-6">
+          {/* 검색바 */}
+          <SearchBar
+            placeholder="제목, 내용으로 검색..."
+            onSearch={handleSearch}
+            defaultValue={searchQuery}
+          />
+
+          {/* 카테고리 필터 */}
+          <CategoryFilter
+            categories={categories}
+            activeCategory={selectedCategory}
+            onChange={handleCategoryChange}
+            className="justify-center"
+          />
+
+          {/* 활성 필터 표시 */}
+          {(searchQuery || selectedCategory) && (
+            <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
+              <span>활성 필터:</span>
+              {searchQuery && (
+                <span className="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 rounded-full">
+                  검색: "{searchQuery}"
+                </span>
+              )}
+              {selectedCategory && (
+                <span className="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 rounded-full">
+                  {categories.find((c) => c.id === selectedCategory)?.label}
+                </span>
+              )}
+            </div>
+          )}
         </div>
       </section>
 

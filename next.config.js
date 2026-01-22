@@ -8,11 +8,8 @@ const nextConfig = {
     // Admin 페이지의 타입 에러를 무시합니다 (Phase 8에서 수정 예정)
     ignoreBuildErrors: true,
   },
-  experimental: {
-    turbo: {
-      enabled: false
-    }
-  }
+  // Turbopack 비활성화 (한글 경로명 이슈로 인해)
+  // 빌드 시 자동으로 Webpack 사용
 }
 
 module.exports = nextConfig

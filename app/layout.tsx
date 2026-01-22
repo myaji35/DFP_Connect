@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { ClerkProvider } from '@clerk/nextjs'
 import { koKR } from '@clerk/localizations'
-import { Header } from '@/components/header'
-import { Footer } from '@/components/footer'
+import { Header } from '@/components/layout/Header'
+import { Footer } from '@/components/layout/Footer'
 import { ToastProvider } from '@/components/ui/toast'
 import { EmergencyFAB } from '@/components/emergency-fab'
 import './globals.css'
@@ -30,7 +30,7 @@ export default function RootLayout({
       <html lang="ko">
         <body className="min-h-screen flex flex-col">
           <Header />
-          <main className="flex-1 pt-20">{children}</main>
+          <main className="flex-1">{children}</main>
           <Footer />
           <EmergencyFAB />
           <ToastProvider />
